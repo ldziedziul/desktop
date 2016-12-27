@@ -26,7 +26,11 @@ function loadDefault(version) {
       notifications: {
         flashWindow: 0 // 0 = flash never, 1 = only when idle (after 10 seconds), 2 = always
       },
-      showUnreadBadge: true
+      showUnreadBadge: true,
+      basicAuth: {
+        defaultUsername: '',
+        defaultPassword: ''
+      }
     };
   default:
     return {};

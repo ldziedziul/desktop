@@ -12,6 +12,9 @@ Release date: TBD
 
 ### Improvements
 
+#### All Platforms
+- Added options to configure default basic auth credentials
+
 ### Bug Fixes
 
 #### All Platforms

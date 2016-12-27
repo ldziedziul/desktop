@@ -319,6 +319,8 @@ ipcMain.on('login-credentials', (event, request, user, password) => {
 
 app.on('login', (event, webContents, request, authInfo, callback) => {
   event.preventDefault();
+  authInfo.basicAuthDefaultUsername = config.basicAuth.defaultUsername;
+  authInfo.basicAuthDefaultPassword = config.basicAuth.defaultPassword;
   loginCallbackMap.set(JSON.stringify(request), callback);
   mainWindow.webContents.send('login-request', request, authInfo);
 });

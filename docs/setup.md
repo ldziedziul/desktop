@@ -133,6 +133,10 @@ The Settings Page is available from the **File** menu under **Settings** (Click 
       - If checked, then a click on the system tray icon leads to a toggling of the minimized/maximized state of the window
    - **Show the red badge for unread messages.** (Windows, OS X)
       - If this is checked it will show the red dot on your task bar when you have unread messages.
+   - **Default username for basic auth**
+      - This option defines a default username set in basic auth dialog
+   - **Default password for basic auth**
+      - This option defines a default password set in basic auth dialog
 
 
 ## Menu Bar

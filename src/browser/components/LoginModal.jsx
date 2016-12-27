@@ -6,6 +6,7 @@ class LoginModal extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onEnter = this.onEnter.bind(this);
   }
 
   handleSubmit(event) {
@@ -13,8 +14,13 @@ class LoginModal extends React.Component {
     const usernameNode = ReactDOM.findDOMNode(this.refs.username);
     const passwordNode = ReactDOM.findDOMNode(this.refs.password);
     this.props.onLogin(this.props.request, usernameNode.value, passwordNode.value);
-    usernameNode.value = '';
-    passwordNode.value = '';
+  }
+
+  onEnter() {
+    const usernameNode = ReactDOM.findDOMNode(this.refs.username);
+    const passwordNode = ReactDOM.findDOMNode(this.refs.password);
+    usernameNode.value = this.props.authInfo ? this.props.authInfo.basicAuthDefaultUsername : '';
+    passwordNode.value = this.props.authInfo ? this.props.authInfo.basicAuthDefaultPassword : '';
   }
 
   render() {
@@ -28,7 +34,7 @@ class LoginModal extends React.Component {
     }
     const message = `${theServer} requires a username and password.`;
     return (
-      <Modal show={this.props.show}>
+      <Modal show={this.props.show} onEnter={this.onEnter}>
         <Modal.Header>
           <Modal.Title>{'Authentication Required'}</Modal.Title>
         </Modal.Header>

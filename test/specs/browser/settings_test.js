@@ -190,5 +190,47 @@ describe('browser/settings.html', function desc() {
           isExisting('#inputShowUnreadBadge').should.eventually.equal(expected);
       });
     });
+
+    describe('Default username for basic auth', () => {
+      it(`should appear`, () => {
+        env.addClientCommands(this.app.client);
+        return this.app.client.loadSettingsPage()
+          .isExisting('#inputBasicAuthDefaultUsername').should.eventually.equal(true);
+      });
+
+      ["", "some-user"].forEach((v) => {
+        it(`should be saved and loaded: ${v}`, () => {
+          env.addClientCommands(this.app.client);
+          return this.app.client.loadSettingsPage()
+            .setValue('input#inputBasicAuthDefaultUsername', v)
+            .click('#btnSave')
+            .pause(1000).then(() => {
+              const savedConfig = JSON.parse(fs.readFileSync(env.configFilePath, 'utf8'));
+              return savedConfig.basicAuth.defaultUsername.should.equal(v);
+            });
+        });
+      });
+    });
+
+    describe('Default password for basic auth', () => {
+      it(`should appear`, () => {
+        env.addClientCommands(this.app.client);
+        return this.app.client.loadSettingsPage()
+          .isExisting('#inputBasicAuthDefaultPassword').should.eventually.equal(true);
+      });
+
+      ["", "some-password"].forEach((v) => {
+        it(`should be saved and loaded: ${v}`, () => {
+          env.addClientCommands(this.app.client);
+          return this.app.client.loadSettingsPage()
+            .setValue('input#inputBasicAuthDefaultPassword', v)
+            .click('#btnSave')
+            .pause(1000).then(() => {
+              const savedConfig = JSON.parse(fs.readFileSync(env.configFilePath, 'utf8'));
+              return savedConfig.basicAuth.defaultPassword.should.equal(v);
+            });
+        });
+      });
+    });
   });
 });

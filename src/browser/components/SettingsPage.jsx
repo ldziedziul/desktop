@@ -1,6 +1,6 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
-const {Button, Checkbox, Col, FormGroup, FormControl, ControlLabel, Grid, Navbar, Row} = require('react-bootstrap');
+const {Button, Checkbox, Input, Col, FormGroup, FormControl, ControlLabel, Grid, Navbar, Row} = require('react-bootstrap');
 
 const {ipcRenderer, remote} = require('electron');
 const AutoLaunch = require('auto-launch');
@@ -65,7 +65,11 @@ const SettingsPage = React.createClass({
       notifications: {
         flashWindow: this.state.notifications.flashWindow
       },
-      showUnreadBadge: this.state.showUnreadBadge
+      showUnreadBadge: this.state.showUnreadBadge,
+      basicAuth: {
+        defaultUsername: this.state.basicAuth.defaultUsername,
+        defaultPassword: this.state.basicAuth.defaultPassword
+      }
     };
     settings.writeFileSync(this.props.configFile, config);
     if (process.platform === 'win32' || process.platform === 'linux') {
@@ -150,6 +154,14 @@ const SettingsPage = React.createClass({
   handleShowUnreadBadge() {
     this.setState({
       showUnreadBadge: !this.refs.showUnreadBadge.props.checked
+    });
+  },
+  handleBasicAuthChange() {
+    this.setState({
+      basicAuth: {
+        defaultUsername: ReactDOM.findDOMNode(this.refs.basicAuthDefaultUsername).value,
+        defaultPassword: ReactDOM.findDOMNode(this.refs.basicAuthDefaultPassword).value
+      }
     });
   },
   render() {
@@ -269,6 +281,31 @@ const SettingsPage = React.createClass({
           onChange={this.handleFlashWindow}
         >{'Flash the taskbar icon when a new message is received.'}</Checkbox>);
     }
+
+    options.push(
+      <FormGroup>
+        <ControlLabel>{'Default username for basic auth'}</ControlLabel>
+        <FormControl
+          key="inputBasicAuthDefaultUsername"
+          id="inputBasicAuthDefaultUsername"
+          ref="basicAuthDefaultUsername"
+          value={this.state.basicAuth.defaultUsername}
+          onChange={this.handleBasicAuthChange}/>
+      </FormGroup>
+    );
+
+    options.push(
+      <FormGroup>
+        <ControlLabel>{'Default password for basic auth'}</ControlLabel>
+        <FormControl
+          key="inputBasicAuthDefaultPassword"
+          id="inputBasicAuthDefaultPassword"
+          ref="basicAuthDefaultPassword"
+          type="password"
+          value={this.state.basicAuth.defaultPassword}
+          onChange={this.handleBasicAuthChange}/>
+      </FormGroup>
+    );
 
     const settingsPage = {
       navbar: {
